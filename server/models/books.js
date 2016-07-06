@@ -36,11 +36,12 @@ var books = {
         });
     },
     updateBook: function(req, res) {
-        BookModel.findById(req.params.id, function(err, book) {
+        var id = req.params.id;
+        BookModel.findById(id, function(err, book) {
 
             if (err)
                 res.json({ message: err });
-
+                
             book.title = req.body.title || book.title;
             book.author = req.body.author || book.author;
             book.year = req.body.year || book.year;
