@@ -8,7 +8,6 @@ var app = express();
 
 var config = require('./server/config');
 
-
 mongoose.connect(config.mongoURI[app.settings.env], function(err, res) {
   if(err) {
     console.log('Error connecting to the database. ' + err);
@@ -16,7 +15,6 @@ mongoose.connect(config.mongoURI[app.settings.env], function(err, res) {
     console.log('Connected to Database: ' + config.mongoURI[app.settings.env]);
   }
 });
-
 
 app.use(bodyParser.json());
 
@@ -30,11 +28,9 @@ app.all('/*', function(req, res, next) {
 });
 // Auth Middleware - This will check if the token is valid
 // Only the requests that start with /api/* will be checked for the token.
-// Any URL's that do not follow the below pattern should be avoided unless you
-// are sure that authentication is not needed
 app.all('/api/*', authentication);
 app.use('/', routes);
-// If no route is matched by now, it must be a 404
+// If no route is matched 
 app.use(function(req, res, next) {
     var err = new Error('Not Found');
     err.status = 404;
@@ -46,5 +42,5 @@ app.set('port', process.env.PORT || 3000);
 var server = app.listen(app.get('port'), function() {
     console.log('Express server listening on port ' + server.address().port);
 });
-
+// export the server to be used in mocha tests
 module.exports = server;
